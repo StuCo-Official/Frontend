@@ -70,7 +70,7 @@ const SignupPage: React.FC = () => {
 
                 alt="Illustration"
                 className="w-[253px] h-[263px] object-cover"
-              />
+              
             </div>
           </div>
         </div>
