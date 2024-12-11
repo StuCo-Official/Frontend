@@ -1,6 +1,6 @@
 // src/pages/LoginPage.tsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FaGoogle, FaFacebookF, FaApple } from "react-icons/fa";
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
@@ -17,6 +17,9 @@ const LoginPage: React.FC = () => {
 
   // State for password visibility toggle
   const [showPassword, setShowPassword] = useState(false);
+
+  // React Router navigation
+  const navigate = useNavigate();
 
   // Backend mutation using React Query
   const queryClient = useQueryClient();
@@ -40,21 +43,35 @@ const LoginPage: React.FC = () => {
         });
 
         const data = await res.json();
-
         if (!res.ok) {
           throw new Error(data.error || "Something went wrong");
         }
-        console.log(data);
+
+        if (data.user && data.token) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.token);
+
+          console.log(data);
+          return data;
+        } else {
+          console.warn("User or token not found in the response");
+        }
+
+        
+
         return data;
       } catch (error: unknown) {
         console.error(error);
         throw error;
       }
     },
-    onSuccess: () => {
-      // Refetch the authUser
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    },
+    onSuccess: (data) => {
+      if (data.user && data.token) {
+        queryClient.invalidateQueries({ queryKey: ["authUser"] });
+        console.log("Login successful");
+        navigate("/home");
+      }
+    },    
   });
 
   const handleSubmit = (e: React.FormEvent) => {

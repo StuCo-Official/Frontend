@@ -33,26 +33,53 @@ const ProfilePage: React.FC = () => {
     };
   
     // Handle form submission
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-  
-      // Validate required fields and accepted terms
+    
+      // Validation for required fields
+      if (!profileData.dob || !profileData.country || !profileData.educationLevel || !profileData.academicYear || !profileData.contact) {
+        alert("All fields are required. Please fill out all the fields.");
+        return;
+      }
+    
       if (!acceptedPrivacy || !acceptedTerms) {
         alert("Please accept the privacy policy and terms of use to proceed.");
         return;
       }
-  
-      // Log or handle data submission
-      console.log("Profile Data Submitted:", profileData);
-      console.log("Receive Notifications:", notifications);
-  
-      // Navigate to the next page upon successful submission
-      navigate("/next-page"); // Update the path as needed
+    
+      // Proceed with the API call
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("User is not authenticated!");
+          return;
+        }
+    
+        const response = await fetch("http://localhost:3000/api/users/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(profileData),
+        });
+    
+        if (!response.ok) {
+          throw new Error("Failed to update profile");
+        }
+    
+        alert("Profile updated successfully");
+        navigate("/home");
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        alert("Error updating profile");
+      }
     };
+    
   
     return (
       <BackgroundLayout>
-        <form onSubmit={handleSubmit} className="w-[922px] h-[610px] bg-white rounded-[32px] shadow p-10">
+        <form onSubmit={handleSubmit} className="w-[922px] h-[610px] bg-white rounded-[32px] shadow p-[40px] mt-[80px]">
           <h1 className="text-center text-[#3a3335] text-[34px] font-bold">Profile Setup</h1>
           <h2 className="text-center text-[#8f8e8e] text-sm font-normal pt-[5px] pb-[40px]">Enter your details to proceed further</h2>
   
@@ -125,13 +152,13 @@ const ProfilePage: React.FC = () => {
             </div>
   
             <div>
-              <label className="flex items-center gap-3 mb-[11px]">
-                <span className="text-[#8f8e8e] text-xs underline">* Privacy policy and preferences</span>
+              <label className="flex items-center gap-3 w-[210px] rounded-md hover:bg-slate-50 grow mb-[11px]">
+                <span className="text-[#8f8e8e] text-xs font-normal underline leading-[18px]">* Privacy policy and preferences</span>
                 <input
                   type="checkbox"
                   checked={acceptedPrivacy}
                   onChange={handleCheckboxChange(setAcceptedPrivacy)}
-                  className="checked:accent-[#4a9b74] scale-125"
+                  className="checked:accent-[#4a9b74] scale-125 checked:border-transparent"
                 />
               </label>
   
@@ -160,7 +187,7 @@ const ProfilePage: React.FC = () => {
           <div className="text-center pt-[35px]">
             <button
               type="submit"
-              className="w-[420px] h-[50px] bg-[#4a9b74] rounded-[10px] text-white text-sm font-bold mt-5 hover:bg-[#3a7f5e] transition-all"
+              className="w-[420px] h-[50px] bg-[#4a9b74] rounded-[10px] text-white text-sm font-bold mt-5 hover:bg-[#3a7f5e] hover:shadow-lg active:scale-95 transition-all duration-200 "
             >
               Continue
             </button>

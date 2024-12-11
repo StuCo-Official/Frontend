@@ -4,7 +4,16 @@ import calendarEvent from "../../assets/CalendarEvent.png";
 import linkIcon from "../../assets/Link.png";
 import rectangle from "../../assets/DemoProfileImage.png";
 
-const CreatePostCard: React.FC = () => {
+type CreatePostCardProps = {
+  user: {
+    _id: string;
+    username: string;
+    profilePicture?: string;
+  };
+  token: string;
+};
+
+const CreatePostCard: React.FC<CreatePostCardProps> = ({ user, token }) => {
   return (
     <div className="w-[624px] h-[184px] bg-white">
       <div className="relative w-[598px] h-[149px] mt-2 mx-auto bg-white rounded-lg shadow-lg">
@@ -13,7 +22,7 @@ const CreatePostCard: React.FC = () => {
           <img
             className="w-full h-full object-cover"
             alt="Avatar"
-            src={rectangle}
+            src={user.profilePicture || rectangle}
           />
         </div>
 
@@ -21,7 +30,7 @@ const CreatePostCard: React.FC = () => {
         <div className="absolute top-6 left-24 w-[473px] h-12 rounded-xl border border-gray-200 bg-white hover:shadow-md transition-shadow">
           <input
             type="text"
-            placeholder="Start a post, type in anything you want to share"
+            placeholder={`What's on your mind, ${user.username}?`}
             className="w-full h-full px-3 py-2 text-sm text-gray-700 bg-white outline-none rounded-xl"
           />
         </div>
