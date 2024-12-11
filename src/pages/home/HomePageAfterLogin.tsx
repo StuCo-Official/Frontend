@@ -119,7 +119,7 @@ const MainPageAfterLogin: React.FC = () => {
       {/* Create Post Card */}
       <section className="mt-[64px] flex flex-col items-center">
         <div className="w-[624px]">
-          <CreatePostCard user={currentUser} token={token} />
+          <CreatePostCard  token={token} />
         </div>
         
       </section>
