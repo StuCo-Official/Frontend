@@ -5,7 +5,7 @@ import { FaGoogle, FaFacebookF, FaApple } from "react-icons/fa";
 import { MdVisibilityOff, MdVisibility } from "react-icons/md";
 import { useLogin } from "../../hooks/AuthHooks/useLogin";
 import usernameIcon from "../../assets/usernameIcon.png";
-import logoImage from "../../assets/StuCoLogo.png";
+import logoImage from '../../assets/StuCoAppBarLogo.png';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");

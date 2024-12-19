@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logoImage from "../../assets/StuCoLogo.png";
+import logoImage from '../../assets/StuCoAppBarLogo.png';
 import { useNavigate } from "react-router-dom"
 import React, { useState } from "react";
 import SignUpForm from "../../components/auth/SignupForm";
@@ -10,19 +10,19 @@ const SignupPage: React.FC = () => {
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-    // Handle checkboxes
-    const handleCheckboxChange = (setter: React.Dispatch<React.SetStateAction<boolean>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setter(e.target.checked);
-    };
+  // Handle checkboxes
+  const handleCheckboxChange = (setter: React.Dispatch<React.SetStateAction<boolean>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setter(e.target.checked);
+  };
 
 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-  
-   
-  
+
+
+
     // Proceed with the API call
     try {
       alert("Profile updated successfully");
@@ -65,16 +65,16 @@ const SignupPage: React.FC = () => {
           </div>
           <div className="flex">
             {/* Left side (form) */}
-            
+
             <div className="w-3/5 pr-8">
-               <SignUpForm /> 
+              <SignUpForm />
               {/* "Already have an account?" divider and Sign In link */}
               <div className="mt-5">
-                <div className="relative mb-6">               
+                <div className="relative mb-6">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-300"></div>
                   </div>
-                  
+
                   <div className="relative flex justify-center text-sm">
                     <span className="px-2 bg-white text-gray-500">
                       Already have an account?
@@ -96,15 +96,15 @@ const SignupPage: React.FC = () => {
             {/* Right side (image) */}
             <div className="w-2/5 flex items-center justify-center">
               <img
-                src = {logoImage}
-                alt ="Illustration"
+                src={logoImage}
+                alt="Illustration"
                 className="w-[253px] h-[263px] object-cover"
               />
             </div>
           </div>
         </div>
 
-       
+
 
 
       </div>
