@@ -11,7 +11,7 @@ interface MessageFormProps {
     onSend: (message: string) => void; // Function prop for handling the send action
 }
 
-const MessageForm: React.FC<MessageFormProps> = ({ onSend }) => {
+const MessageForm: React.FC<MessageFormProps> = () => {
     const [message, setMessage] = useState<string>("");
 	const { loading, sendMessage } = useSendMessage();
 

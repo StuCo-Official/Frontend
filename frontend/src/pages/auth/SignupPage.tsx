@@ -1,38 +1,8 @@
 import { Link } from "react-router-dom";
 import logoImage from '../../assets/StuCoAppBarLogo.png';
-import { useNavigate } from "react-router-dom"
-import React, { useState } from "react";
 import SignUpForm from "../../components/auth/SignupForm";
 
 const SignupPage: React.FC = () => {
-  const navigate = useNavigate();
-
-  const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-
-  // Handle checkboxes
-  const handleCheckboxChange = (setter: React.Dispatch<React.SetStateAction<boolean>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setter(e.target.checked);
-  };
-
-
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-
-
-
-    // Proceed with the API call
-    try {
-      alert("Profile updated successfully");
-      navigate("/home");
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Error updating profile");
-    }
-  };
-
   return (
     <div className="bg-[#e3f2eb] flex justify-center w-full min-h-screen">
       <div className="bg-white border border-solid border-black w-full max-w-[1440px] h-full relative">
@@ -103,10 +73,6 @@ const SignupPage: React.FC = () => {
             </div>
           </div>
         </div>
-
-
-
-
       </div>
     </div>
   );
