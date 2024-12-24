@@ -1,7 +1,7 @@
 import React from "react";
-import image22 from "../../assets/image_22.png";
-import image20 from "../../assets/image_20.png";
-import image21 from "../../assets/image_21.png";
+import image22 from "../../assets/Image_22.png";
+import image20 from "../../assets/Image_20.png";
+import image21 from "../../assets/Image_21.png";
 
 const IntroduceFeatureCard: React.FC = () => {
     return (
