@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/StuCoAppBarLogo.png';
 import DemoProfileImage from '../../assets/DemoProfileImage.png';
 import { FaRegCompass } from "react-icons/fa6";
-import { VscTools } from "react-icons/vsc";
+// import { VscTools } from "react-icons/vsc";
 import { IoLibraryOutline } from "react-icons/io5";
 import { PiPathDuotone } from "react-icons/pi";
 import { BsHeartPulse } from "react-icons/bs";
@@ -37,10 +37,13 @@ const MyAppBar: React.FC = () => {
             <BsHeartPulse style={{ strokeWidth: 0.4 }} className="w-[19px] h-[19px] mr-2" />
             Mentorship
           </button>
+          
+          {/*
+           ----This Button was removed from the AppBar as it is not currently required-----
           <button className="flex h-full items-center font-light text-[#565e6c] text-sm bg-transparent hover:bg-gray-300 px-3 rounded">
             <VscTools style={{ strokeWidth: 0.2 }} className="w-[21px] h-[21px] mr-2" />
             Tools
-          </button>
+          </button> */}
           <button className="flex h-full items-center font-light text-[#565e6c] text-sm bg-transparent hover:bg-gray-300 px-3 rounded">
             <IoLibraryOutline className="w-[21px] h-[21px] mr-2" />
             Library
