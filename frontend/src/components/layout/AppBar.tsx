@@ -61,7 +61,7 @@ const MyAppBar: React.FC = () => {
         </div>
 
         {/* Right section: SearchBar & ProfilePic / Sign In Button */}
-        {!!user ? (
+        {user ? (
           <div className="flex items-center h-full left-3">
             <div className="relative h-[35px]">
               <input
