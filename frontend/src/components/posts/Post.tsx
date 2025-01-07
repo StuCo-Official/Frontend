@@ -9,7 +9,7 @@ export const Post = ({ post }: any) => {
   const postOwner = post.user;
   const isLiked = false;
 
-  const isMyPost = authUser?._id === post.user._id;
+  const isMyPost = authUser?._id === postOwner._id;
 
   const formattedDate = "1h";
 
@@ -40,17 +40,17 @@ export const Post = ({ post }: any) => {
       <div className="flex items-center">
 
         <img
-          src={post.user.profileImage ? post.user.profileImage : 'src/assets/DemoProfileImage.png'}
-          alt={post.user.username}
+          src={postOwner.profileImage ? postOwner.profileImage : 'src/assets/DemoProfileImage.png'}
+          alt={postOwner.username}
           className="w-12 h-12 rounded-full object-cover"
         />
 
         <div className="ml-4">
           <p className="font-semibold text-gray-800">
-            {post.user.username}
+            {postOwner.username}
             <span className="text-gray-500 text-sm ml-2">
-              {post.user.educationLevel && `${post.user.educationLevel}, `}
-              {post.user.academicYear ? `Year ${post.user.academicYear}` : ''}
+              {postOwner.educationLevel && `${postOwner.educationLevel}, `}
+              {postOwner.academicYear ? `Year ${postOwner.academicYear}` : ''}
             </span>
           </p>
           <p className="text-gray-500 text-sm">{moment(post.createdAt).fromNow()}</p>

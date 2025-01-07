@@ -1,58 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axiosInstance from '../../services/ApiService';
 
 type User = {
-    _id: string;
-    username: string;
-    profileImage?: string;
-    educationLevel?: string; 
-    academicYear?: string; 
-  };
-  
-  type CommentType = {
-    _id: string;
-    user: User;
-    text: string;
-    timestamp: string;
-  };
-  
-  type PostType = {
-    _id: string;
-    user: User;
-    text: string;
-    img?: string;
-    likes: string[];
-    comments: CommentType[];
-    createdAt: string;
-  };
+  _id: string;
+  username: string;
+  profileImage?: string;
+  educationLevel?: string;
+  academicYear?: string;
+};
+
+type CommentType = {
+  _id: string;
+  user: User;
+  text: string;
+  timestamp: string;
+};
 
 export const useGetPosts = () => {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getPosts = async (page: number, limit: number = 10) => {
-    if (loading) return false;
+  useEffect(() => {
+    const getPosts = async () => {
+      if (loading) return false;
+      setLoading(true);
+      setError(null);
 
-    setLoading(true);
-    setError(null);
+      try {
+        const response = await axiosInstance.get(`/posts/all`);
+        setPosts(response.data);
 
-    try {
-      const response = await axiosInstance.get<PostType[]>(
-        `/posts/recent?page=${page}&limit=${limit}`
-      );
+        return posts;
+      } catch (error) {
+        console.error('Error geting posts:', error);
+        setError('Failed to get posts. Please try again later.');
+        return;
+      } finally {
+        setLoading(false);
+      }
+    };
+    getPosts();
+  }, [])
 
-      setPosts((prevPosts) => [...prevPosts, ...response.data]);
-
-      return response.data.length === limit;
-    } catch (error) {
-      console.error('Error geting posts:', error);
-      setError('Failed to get posts. Please try again later.');
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { posts, getPosts, loading, error };
+  return { posts, loading, error };
 };
