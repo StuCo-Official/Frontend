@@ -1,126 +1,44 @@
-/*
- * import React, { useState } from 'react';
-import axios from 'axios';
-import moment from 'moment';
-import { useUserContext } from '../../context/UserContext';
+import moment from "moment";
+import { useState } from "react";
+import { useUserContext } from "../../context/UserContext";
 
-type User = {
-  _id: string;
-  username: string;
-  profileImage?: string;
-  educationLevel?: string; 
-  academicYear?: string; 
-};
+export const Post = ({ post }: any) => {
+  const [comment, setComment] = useState("");
+  const { user : authUser , setUser } = useUserContext();
 
-type CommentType = {
-  _id: string;
-  user: User;
-  text: string;
-  timestamp: string;
-};
+  const postOwner = post.user;
+  const isLiked = false;
 
-type PostType = {
-  _id: string;
-  user: User;
-  text: string;
-  img?: string;
-  likes: string[];
-  comments: CommentType[];
-  createdAt: string;
-};
+  const isMyPost = authUser?._id === post.user._id;
 
-type PostCardProps = {
-  post: PostType;
-  currentUser: User;
-  token: string;
-};
+  const formattedDate = "1h";
 
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
-  const { user, setUser } = useUserContext();
-  const [likes, setLikes] = useState<string[]>(post.likes || []);
-  const [hasLiked, setHasLiked] = useState<boolean>(likes.includes(user?._id || ''));
-  const [comments, setComments] = useState<CommentType[]>(post.comments || []);
-  const [showComments, setShowComments] = useState<boolean>(false);
-  const [commentText, setCommentText] = useState<string>('');
-  const [likeLoading, setLikeLoading] = useState<boolean>(false);
-  const [commentLoading, setCommentLoading] = useState<boolean>(false);
-  const [showPopOut, setShowPopOut] = useState<boolean>(false);
-  const [isDeleted, setIsDeleted] = useState<boolean>(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
+  const isCommenting = false;
 
-  const showDeleteButton = user?._id === post.user._id;
+  let showDeleteButton = false;
+  let showDeleteConfirm = false;
+  let showPostComments = false;
+  let commentText = "";
+  let commentLoading = false;
+  let showPopOut = false;
 
-  const handleLike = async () => {
-    setLikeLoading(true);
-    try {
-      await axios.post(
-        `http://localhost:3000/api/posts/like/${post._id}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setLikes((prevLikes) =>
-        hasLiked ? prevLikes.filter((id) => id !== currentUser._id) : [...prevLikes, currentUser._id]
-      );
-      setHasLiked(!hasLiked);
-    } catch (error) {
-      console.error('Error liking/unliking post:', error);
-    } finally {
-      setLikeLoading(false);
-    }
-  };
+  const handleDeletePost = () => { };
 
-  const handleCommentSubmit = async (e: React.FormEvent) => {
+  const handlePostComments = (e : any) => {
     e.preventDefault();
-    if (!commentText.trim()) return;
-    setCommentLoading(true);
-    try {
-      const response = await axios.post(
-        `http://localhost:3000/api/posts/comment/${post._id}`,
-        { text: commentText },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setComments(response.data.comments || []);
-      setCommentText('');
-    } catch (error) {
-      console.error('Error commenting on post:', error);
-    } finally {
-      setCommentLoading(false);
-    }
-  };
-
-  const handleExport = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setShowPopOut(true); // Show the pop-out message
-    setTimeout(() => setShowPopOut(false), 3000); // Hide the message after 3 seconds
-  };
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(
-        `http://localhost:3000/api/posts/${post._id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setIsDeleted(true); // Hide the post after deletion
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    }
-  };
-
-  if (isDeleted) {
-    return null; // Do not render if deleted
   }
+
+  const handleLikePost = () => { };
+
+  const handleExport = () => { };
+
+  const handleCommentSubmit = () => { };
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200 relative">
-      {/* Header }
+      {/* Header */}
       <div className="flex items-center">
-        
+
         <img
           src={post.user.profileImage ? post.user.profileImage : 'src/assets/DemoProfileImage.png'}
           alt={post.user.username}
@@ -142,7 +60,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       {showDeleteButton && (
         <>
           <button
-            onClick={() => setShowDeleteConfirm(true)}
+            onClick={() => showDeleteButton = true}
             className="absolute top-4 right-4 text-red-500 hover:text-red-700"
             title="Delete Post"
           >
@@ -156,13 +74,13 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               <p className="text-gray-800 mb-4">Are you sure you want to delete this post?</p>
               <div className="flex space-x-4">
                 <button
-                  onClick={handleDelete}
+                  onClick={handleDeletePost}
                   className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                 >
                   Yes, Delete
                 </button>
                 <button
-                  onClick={() => setShowDeleteConfirm(false)}
+                  onClick={() => showDeleteConfirm = true}
                   className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded"
                 >
                   Cancel
@@ -173,7 +91,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         </>
       )}
 
-      {/* Post Content }
+      {/* Post Content */}
       <div className="mt-4">
         <p className="text-gray-700">{post.text}</p>
         {post.img && (
@@ -185,27 +103,26 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         )}
       </div>
 
-      {/* Actions }
+      {/* Actions */}
       <div className="flex items-center mt-4 text-gray-600 space-x-8">
-        {/* Like Button }
+        {/* Like Button */}
         <button
-          onClick={handleLike}
-          disabled={likeLoading}
-          className={`flex items-center space-x-1 hover:text-[#7EB698] ${
-            hasLiked ? 'text-[#7EB698]' : ''
-          }`}
+          onClick={handleLikePost}
+          disabled={false}
+          className={`flex items-center space-x-1 hover:text-[#7EB698] ${true ? 'text-[#7EB698]' : ''
+            }`}
         >
           <img
-            src={hasLiked ? 'src/assets/thumb_up_after.png' : 'src/assets/thumb_up_before.png'}
+            src={isLiked ? 'src/assets/thumb_up_after.png' : 'src/assets/thumb_up_before.png'}
             alt="Like"
             className="w-5 h-5"
           />
-          <span>{likes.length}</span>
+          <span>{post.likes.length}</span>
         </button>
 
-        {/* Comment Button }
+        {/* Comment Button */}
         <button
-          onClick={() => setShowComments(!showComments)}
+          onClick={handlePostComments}
           className="flex items-center space-x-1 hover:text-[#7EB698]"
         >
           <img
@@ -213,9 +130,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             alt="Comment"
             className="w-5 h-5"
           />
-          <span>{comments.length}</span>
+          <span>{post.comments.length}</span>
         </button>
-        {/* Export Button }
+        {/* Export Button */}
         <button
           onClick={handleExport}
           className="flex items-center space-x-1 hover:text-[#7EB698] text-gray-500"
@@ -229,13 +146,13 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         </button>
       </div>
 
-      {/* Comments Section }
-      {showComments && (
+      {/* Comments Section */}
+      {showPostComments && (
         <div className="mt-6">
           <form onSubmit={handleCommentSubmit} className="flex items-center space-x-2">
             <img
-              src={currentUser.profileImage || 'src/assets/DemoProfileImage.png'}
-              alt={currentUser.username}
+              src={authUser?.profileImage || 'src/assets/DemoProfileImage.png'}
+              alt={authUser?.username}
               className="w-8 h-8 rounded-full object-cover"
             />
 
@@ -243,7 +160,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               type="text"
               placeholder="Add a comment..."
               value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
+              onChange={(e) => commentText = e.target.value}
               className="flex-1 border rounded-lg px-4 py-2"
             />
             <button
@@ -255,7 +172,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             </button>
           </form>
           <div className="mt-4 space-y-4">
-            {comments.map((comment) => (
+            {post.comments.map((comment: any) => (
               <div key={comment._id} className="flex items-start space-x-2">
                 <img
                   src={comment.user.profileImage ? comment.user.profileImage : 'src/assets/DemoProfileImage.png'}
@@ -274,7 +191,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         </div>
       )}
 
-      {/* Pop-Out Message }
+      {/* Pop-Out Message */}
       {showPopOut && (
         <div className="absolute top-2 right-2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-md">
           URL is copied to your clipboard!
@@ -283,6 +200,3 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     </div>
   );
 };
-
-export default PostCard;
-*/
