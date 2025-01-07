@@ -27,7 +27,7 @@ const Posts = () => {
 */
 import { useEffect, useRef } from "react";
 import { useGetPosts } from "../../hooks/PostHooks/useGetPosts";
-import { PostSkeleton } from "../../skeletons/PostSkeleton";
+import PostSkeleton from "../../skeletons/PostSkeleton";
 import { Post } from "./Post";
 
 const Posts = () => {
