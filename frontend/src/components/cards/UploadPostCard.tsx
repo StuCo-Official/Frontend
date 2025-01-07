@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import defaultProfile from "../../assets/DemoProfileImage.png";
 import galleryIcon from "../../assets/Gallery.png"; // Import the Gallery icon
 import axiosInstance from "../../services/ApiService";
@@ -68,7 +67,8 @@ const CreatePost: React.FC<CreatePostProps> = ({ user, onPostSuccess, onClose })
   const postToBackend = async (payload: PostPayload) => {
     try {
       const response = await axiosInstance.post<{ message: string }>(
-        "/posts/create"
+        "/posts/create",
+        payload,
       );
 
       // Handle success
