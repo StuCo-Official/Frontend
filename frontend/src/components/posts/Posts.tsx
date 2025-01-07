@@ -1,30 +1,3 @@
-/**
- * import { useEffect } from "react";
-import useChat from "../../zustand/useChat";
-import MessageInput from "./MessageInput";
-import Messages from "./Messages";
-import { TiMessages } from "react-icons/ti";
-import { useUserContext } from "../../context/UserContext";
-
-const Posts = () => {
-<section className="posts-section">
-{posts.length > 0 ? (
-  posts.map((post) => (
-	<div key={post._id} className="w-[624px] mx-auto">
-	  <PostCard post={post} currentUser={{ _id: 'debug', username: 'debug' }} token={'debug'} />
-	</div>
-  ))
-) : (
-  <p className="text-center text-gray-600">No posts available.</p>
-)}
-{hasMorePosts && (
-  <div ref={loaderRef} className="text-center text-gray-500">
-	Loading more posts...
-  </div>
-)}
-</section>
-
-*/
 import { useRef } from "react";
 import PostSkeleton from "../../skeletons/PostSkeleton";
 import { Post } from "./Post";
@@ -61,8 +34,10 @@ const Posts = () => {
 					</div>
 				))}
 			{!isLoading && posts.length === 0 && (
-				<p className='text-center my-4'>Upload to start the feed</p>
-			)}
+				<p className="text-center text-gray-600">
+					No posts available.
+					</p>
+				)}
 		</div>
 	);
 };

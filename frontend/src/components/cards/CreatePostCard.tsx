@@ -14,10 +14,9 @@ type UserType = {
 };
 
 type CreatePostCardProps = {
-  token: string;
 };
 
-const CreatePostCard: React.FC<CreatePostCardProps> = ({ token }) => {
+const CreatePostCard: React.FC<CreatePostCardProps> = () => {
   const [ isPostModalOpen, setIsPostModalOpen ] = useState(false);
   const { user } = useUserContext(); 
 
@@ -93,7 +92,6 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ token }) => {
           <div className="relative bg-white rounded-lg shadow-lg p-6">
             <CreatePost
               user={user}
-              token={token}
               onPostSuccess={handlePostSuccess}
               onClose={handlePostClose}
             />

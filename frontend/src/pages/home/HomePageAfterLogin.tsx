@@ -43,36 +43,34 @@ const HomePageAfterLogin = () => {
 
   return (
     <div className="main-page flex flex-col">
-      {/* Top AppBar Section */}
       <section className="z-50 w-full fixed top-0 left-0 right-0">
         <MyAppBar />
       </section>
       <div className="flex w-screen h-full pt-[56px]">
-        {/* Left - Side Bar Section */}
         <div className="flex sticky top-[56px] left-0 h-[calc(100vh-56px)]">
           <SideBar />
         </div>
-        {/* Center - Posts Section */}
         <div className="flex-grow flex flex-col items-center">
-          {/* Upload Post Card Section */}
+          {/* Create Post Card */}
           <section className="mb-4">
             <div className="w-[624px]">
-              <CreatePostCard token={'debug'} />
+
+              <CreatePostCard />
             </div>
           </section>
 
-          {/* Posts Section */}
-          <section className="w-[624px] mx-auto">
+          <section className="posts-section w-[624px]">
             <Posts />
           </section>
-        </div>
-
-        {/* Right - Calendar */}
-        <div className="absolute right-10 flex-col items-center  mt-8 w-[300px]">
+      </div>
+      <div className="absolute right-10 flex-col items-center  mt-8">
+          <div className="w-[300px]">
             <Calendar />
+          </div>
         </div>
       </div>
     </div>
+
   );
 }
 
