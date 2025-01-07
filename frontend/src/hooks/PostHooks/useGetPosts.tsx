@@ -39,7 +39,7 @@ export const useGetPosts = () => {
 
     try {
       const response = await axiosInstance.get<PostType[]>(
-        `/api/posts/recent?page=${page}&limit=${limit}`
+        `/posts/recent?page=${page}&limit=${limit}`
       );
 
       setPosts((prevPosts) => [...prevPosts, ...response.data]);

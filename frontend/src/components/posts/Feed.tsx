@@ -48,7 +48,7 @@ const Feed: React.FC = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get<PostType[]>('http://localhost:5000/api/posts/all', {
+        const response = await axios.get<PostType[]>('/posts/all', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
