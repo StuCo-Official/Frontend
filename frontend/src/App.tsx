@@ -10,21 +10,54 @@ import HomePage from './pages/home/HomePageBeforeLogin';
 import ProfileSetUpPage from './pages/auth/EditProfilePage';
 import MessagesPage from './pages/home/MessagesPage';
 
+import ProtectedRoute from './routes/ProtectedRoute';
+
 const App = () => {
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
       <Routes>
-        <Route path= '/' element={<HomePage />}/>
-				<Route path='/login' element={<LoginPage />} />
-				<Route path='/signup' element={<SignUpPage/>} />
-        <Route path="/edit-profile" element={<ProfileSetUpPage />} />
-        <Route path="/home" element={<MainPageAfterLogin />} />
-        <Route path="/profile" element={<ProfilePage/>}/>
-        <Route path="/chats" element={<MessagesPage/>}/>
-			</Routes>
-      <Toaster/>
+        {/* Public routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+
+        {/* Protected routes */}
+        <Route
+          path="/edit-profile"
+          element={
+            <ProtectedRoute>
+              <ProfileSetUpPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <MainPageAfterLogin />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chats"
+          element={
+            <ProtectedRoute>
+              <MessagesPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+      <Toaster />
     </div>
-  );
+  );  
 };
 
 export default App;

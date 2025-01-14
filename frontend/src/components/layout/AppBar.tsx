@@ -15,6 +15,14 @@ const MyAppBar: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useUserContext();
 
+  const protectedNavigate = (path: string) => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      navigate(path);
+    }
+  };
+  
   return (
     <div className="bg-[#e4f3ec] text-white shadow-md w-full h-[56px] fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center justify-between h-full px-4">
@@ -22,7 +30,8 @@ const MyAppBar: React.FC = () => {
         <div className="flex items-center h-full">
           <div
             className="flex items-center cursor-pointer"
-            onClick={() => navigate('/home')} // Navigate to /home on click
+            
+            onClick={() => protectedNavigate('/home')} // Navigate to /home on click. If the user is not logged in, redirects to login page.
           >
             <img src={logo} alt="App Logo" className="w-[44px] h-[34px]" />
             <span className="text-2xl font-bold ml-2 font-poppins italic text-black">StuCo</span>
@@ -55,7 +64,7 @@ const MyAppBar: React.FC = () => {
         </div>
 
         {/* Right section: SearchBar & ProfilePic / Sign In Button */}
-        {!!user ? (
+        {user ? (
           <div className="flex items-center h-full left-3">
             <div className="relative h-[35px]">
               <input
