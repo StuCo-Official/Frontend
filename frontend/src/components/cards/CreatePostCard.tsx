@@ -5,6 +5,7 @@ import mediaPlayer from "../../assets/MediaPlayer.png";
 import calendarEvent from "../../assets/CalendarEvent.png";
 import linkIcon from "../../assets/Link.png";
 import rectangle from "../../assets/DemoProfileImage.png";
+import { useUserContext } from "../../context/UserContext";
 
 type UserType = {
   _id: string;
@@ -13,36 +14,14 @@ type UserType = {
 };
 
 type CreatePostCardProps = {
-  token: string;
 };
 
-const CreatePostCard: React.FC<CreatePostCardProps> = ({ token }) => {
-  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-  const [user, setUser] = useState<UserType | null>(null);
-
-  // Fetch user data from /api/auth/me
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get<UserType>("http://localhost:3000/api/auth/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("User fetched from /api/auth/me:", response.data);
-        setUser(response.data);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    if (token) {
-      fetchUser();
-    }
-  }, [token]);
+const CreatePostCard: React.FC<CreatePostCardProps> = () => {
+  const [ isPostModalOpen, setIsPostModalOpen ] = useState(false);
+  const { user } = useUserContext(); 
 
   const togglePostModal = () => {
-    setIsPostModalOpen((prev) => !prev);
+    setIsPostModalOpen(prev => !prev);
   };
 
   const handlePostSuccess = () => {
@@ -51,7 +30,6 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ token }) => {
   };
 
   const handlePostClose = () => {
-    // Ensure the modal is closed when the user cancels or the post is completed
     setIsPostModalOpen(false);
   };
 
@@ -65,7 +43,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ token }) => {
   return (
     <div className="relative">
       {/* Create Post Card */}
-      <div className="w-[624px] h-[184px] bg-white">
+      <div>
         <div className="relative w-[598px] h-[149px] mt-2 mx-auto bg-white rounded-lg shadow-lg">
           {/* Avatar Section */}
           <div className="absolute w-[58px] h-[58px] top-6 left-6 bg-gray-100 rounded-full overflow-hidden">
@@ -114,7 +92,6 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ token }) => {
           <div className="relative bg-white rounded-lg shadow-lg p-6">
             <CreatePost
               user={user}
-              token={token}
               onPostSuccess={handlePostSuccess}
               onClose={handlePostClose}
             />

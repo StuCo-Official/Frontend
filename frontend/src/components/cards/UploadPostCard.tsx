@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
 import defaultProfile from "../../assets/DemoProfileImage.png";
 import galleryIcon from "../../assets/Gallery.png"; // Import the Gallery icon
+import axiosInstance from "../../services/ApiService";
 
 interface CreatePostProps {
   user: {
     username: string;
     profileImage?: string;
   };
-  token: string;
   onPostSuccess: () => void; // Callback for successful post
   onClose: () => void; // Callback for closing the modal
 }
@@ -18,7 +17,7 @@ interface PostPayload {
   img?: string; // Optional base64 string for the image
 }
 
-const CreatePost: React.FC<CreatePostProps> = ({ user, token, onPostSuccess, onClose }) => {
+const CreatePost: React.FC<CreatePostProps> = ({ user, onPostSuccess, onClose }) => {
   const [text, setText] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,15 +66,9 @@ const CreatePost: React.FC<CreatePostProps> = ({ user, token, onPostSuccess, onC
 
   const postToBackend = async (payload: PostPayload) => {
     try {
-      const response = await axios.post<{ message: string }>(
-        "http://localhost:3000/api/posts/create",
+      const response = await axiosInstance.post<{ message: string }>(
+        "/posts/create",
         payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
       );
 
       // Handle success
