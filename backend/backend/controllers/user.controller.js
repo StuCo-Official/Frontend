@@ -106,7 +106,6 @@ export const updateUser = async (request, response) => {
         newPassword,
         bio,
         link,
-        role,
         mentorshipFee,
         mentorshipDescription,
         educationLevel,
