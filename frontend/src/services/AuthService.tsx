@@ -42,7 +42,7 @@ export const signupAPI = async (
       email,
     });
 
-    return res.data.user;
+    return res;
   } catch (error) {
     throw error;
   }

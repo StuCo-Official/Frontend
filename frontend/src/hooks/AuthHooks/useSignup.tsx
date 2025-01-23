@@ -21,10 +21,10 @@ export const useSignup = () => {
     try {
       const res = await signupAPI(username, firstName, lastName, password, email);
       const data = res.data;
-      if (data.accessToken && data.user) {
-        localStorage.setItem("accessToken", data.token);
-        localStorage.setItem("user", JSON.stringify(res));
-        setUser(res);
+      if (data.token && data.user) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setUser(data.user);
         toast.success("Signup Success!");
         navigate("/home");
       } else {
