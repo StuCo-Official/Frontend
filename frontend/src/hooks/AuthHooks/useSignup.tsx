@@ -20,11 +20,15 @@ export const useSignup = () => {
     setIsPending(true); 
     try {
       const res = await signupAPI(username, firstName, lastName, password, email);
-      if (res) {
-        localStorage.setItem("user", JSON.stringify(res));
-        setUser(res);
+      const data = res.data;
+      if (data.token && data.user) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setUser(data.user);
         toast.success("Signup Success!");
         navigate("/home");
+      } else {
+        throw new Error("Invalid signup response");
       }
     } catch (error) {
       const errorMessage =

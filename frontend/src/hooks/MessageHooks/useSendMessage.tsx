@@ -1,10 +1,11 @@
 import { useState } from "react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Message } from "../../models/Message";
 import useChat from "../../zustand/useChat";
 import { useUserContext } from "../../context/UserContext";
 import { findParticipantId } from "../../utils/findParticipantId";
+import axiosInstance from "../../services/ApiService";
 
 const useSendMessage = () => {
 	const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const useSendMessage = () => {
         return;
       }
 
-			const { data } = await axios.post<Message>(
+			const { data } = await axiosInstance.post<Message>(
         `/api/messages/send/${participantId}`,
         { message }
       );

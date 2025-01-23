@@ -10,8 +10,7 @@ export const getUserProfile = async (request, response) => {
     try {
         const user = await User.findOne({ username })
             .select("-password")
-            .select("educationLevel academicYear");
-
+            .select("educationLevel academicYear"); // TODO: select after select call will not apply
         
         if (!user) {
             return response.status(404).json({ error: "User not found!"});
@@ -107,6 +106,8 @@ export const updateUser = async (request, response) => {
         newPassword,
         bio,
         link,
+        mentorshipFee,
+        mentorshipDescription,
         educationLevel,
         academicYear,
         major,
@@ -180,9 +181,23 @@ export const updateUser = async (request, response) => {
 
         user.profileImage = updatedProfileImage;
         user.coverImage = updatedCoverImage;
+        
+        // Handle mentorship-related fields update
+        let updatedMentorshipFee = user.mentorshipFee;
+        let updatedMentorshipDescription = user.mentorshipDescription;
+        if (mentorshipFee || mentorshipDescription) {
+            if (user.role !== 'mentor') {
+              return res.status(403).json({ error: 'You are not authorized to update mentorship fields.' });
+            }
+            updatedMentorshipFee = mentorshipFee;
+            updatedMentorshipDescription = mentorshipDescription;
+        }
+
+        user.mentorshipFee = updatedMentorshipFee;
+        user.coverImage = updatedMentorshipDescription;
 
         user = await user.save();
-
+        
         // Remove password before sending response
         user.password = null;
 

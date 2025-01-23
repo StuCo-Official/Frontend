@@ -1,7 +1,5 @@
-import axios from "axios";
 import { UserProfile } from "../models/UserProfile";
-
-axios.defaults.withCredentials = true;
+import axiosInstance from "./ApiService";
 
 export const updateUserAPI = async (
     userData: Partial<UserProfile>, 
@@ -14,8 +12,8 @@ export const updateUserAPI = async (
         ...(newPassword?.trim() ? { newPassword: newPassword.trim() } : {}),
     };
 
-    const res = await axios.post(
-      "/api/users/update",
+    const res = await axiosInstance.post(
+      "/users/update",
       payload,
     );
 
@@ -27,7 +25,7 @@ export const updateUserAPI = async (
 
 export const getUserProfileByUsernameAPI = async (username: string) => {
   try {
-    const res = await axios.get(`/api/users/profile/${username}`);
+    const res = await axiosInstance.get(`/api/users/profile/${username}`);
     console.log(res);
     return res.data; // Return user profile data
   } catch (error) {

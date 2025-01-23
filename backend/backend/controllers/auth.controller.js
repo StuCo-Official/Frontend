@@ -58,7 +58,7 @@ export const signup = async (request, response) => {
                     profileImage: newUser.profileImage,
                     coverImage: newUser.coverImage,
                 },
-                token,
+                token
             });
 
         } else {

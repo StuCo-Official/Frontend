@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Message } from "../../models/Message";
 import useChat from "../../zustand/useChat";
 import { useUserContext } from "../../context/UserContext";
 import { findParticipantId } from "../../utils/findParticipantId";
+import axiosInstance from "../../services/ApiService";
 
 const useGetMessages = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +23,7 @@ const useGetMessages = () => {
           return;
         }
         
-				const { data } = await axios.get<Message[]>(`/api/messages/${participantId}`);
+				const { data } = await axiosInstance.get<Message[]>(`/api/messages/${participantId}`);
 				setMessages(data);
 			} catch (error) {
         const errorMessage =

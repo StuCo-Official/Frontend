@@ -38,6 +38,18 @@ const userSchema = new mongoose.Schema({
             default: []
         }
     ],
+    role: {
+        type: String,
+        enum: ['student', 'mentor'],
+        default: 'student',
+        required: true,
+    },
+    mentorshipFee: {
+        type: Number
+    },
+    mentorshipDescription: {
+        type: String
+    },
     profileImage: {
         type: String,
         default: "",
