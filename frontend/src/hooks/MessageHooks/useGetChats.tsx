@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { Chat } from "../../models/Chat";
+import axiosInstance from "../../services/ApiService";
 
 const useGetChats = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -11,7 +12,7 @@ const useGetChats = () => {
     const getChats = async () => {
       setLoading(true);
       try {
-        const res = await axios.get<Chat[]>("/api/messages/get/all"); // gets all chats the user is a participant of
+        const res = await axiosInstance.get<Chat[]>("/messages/get/all"); // gets all chats the user is a participant of
         setChats(res.data);
       } catch (error) {
         const errorMessage =

@@ -1,13 +1,13 @@
 import { UserProfile } from "../models/UserProfile";
 import { handleError } from "../helper/ErrorHandler";
-import axios from "axios";
+import axiosInstance from "./ApiService";
 
 // Ensure cookies are included with every request
-axios.defaults.withCredentials = true;
+axiosInstance.defaults.withCredentials = true;
 
 export const getUserProfileAPI = async () => {
   try {
-    const res = await axios.get<UserProfile>("/api/auth/getme");
+    const res = await axiosInstance.get<UserProfile>("/auth/getme");
     return res.data;
   } catch (error) {
     handleError(error);
@@ -16,11 +16,11 @@ export const getUserProfileAPI = async () => {
 
 export const loginAPI = async (username: string, password: string) => {
   try {
-    const res = await axios.post("/api/auth/login", {
+    const res = await axiosInstance.post("/auth/login", {
       username,
       password,
     });
-    return res.data.user;
+    return res;
   } catch (error) {
     throw error;
   }
@@ -34,7 +34,7 @@ export const signupAPI = async (
   email: string
 ) => {
   try {
-    const res = await axios.post("/api/auth/signup", {
+    const res = await axiosInstance.post("/auth/signup", {
       username,
       firstName,
       lastName,
@@ -50,7 +50,7 @@ export const signupAPI = async (
 
 export const logoutAPI = async (): Promise<void> => {
   try {
-    await axios.post("/api/auth/logout");
+    await axiosInstance.post("/auth/logout");
   } catch (error) {
     throw error;
   }

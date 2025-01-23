@@ -14,6 +14,7 @@ export const useLogout = () => {
     try {
       await logoutAPI();
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       setUser(null);
       navigate("/");
     } catch (error) {

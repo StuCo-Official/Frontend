@@ -17,8 +17,10 @@ export const useLogin = () => {
     try {
       const res = await loginAPI(username, password);
       if (res) {
-        localStorage.setItem("user", JSON.stringify(res));
-        setUser(res);
+        const { user, token } = res.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
         toast.success("Login Success!");
         navigate("/home");
       }
